@@ -10,6 +10,11 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Load application routes here
+const taskRoutes = require("./routes/task.routes");
+
+app.use('/api/tasks', taskRoutes);
+
 // Test endpoints
 app.get("/", (req, res) => {
     console.log("The root route has been called!");
