@@ -6,8 +6,11 @@ const router = express.Router();
 const TaskController = require("../controllers/task.controller");
 
 // Define the routes
-router.get("/", TaskController.list);
-router.post("/", TaskController.create);
+router.post("/", TaskController.create);            // CREATE   C
+router.get("/", TaskController.list);               // READ     R
+router.get("/:id", TaskController.getOne);
+router.put("/:id", TaskController.update);          // UPDATE   U
+router.delete("/:id", TaskController.deleteTask);   // DELETE   D
 
 // Export the routes
 module.exports = router;
