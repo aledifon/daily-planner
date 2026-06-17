@@ -10,7 +10,7 @@ router.post("/", TaskController.create);            // CREATE   C
 router.get("/", TaskController.list);               // READ     R
 router.get("/:id", TaskController.getOne);
 router.put("/:id", TaskController.update);          // UPDATE   U
-router.delete("/:id", TaskController.deleteTask);   // DELETE   D
+router.delete("/:id", TaskController.remove);       // DELETE   D
 
 // Export the routes
 module.exports = router;

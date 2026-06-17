@@ -1,9 +1,9 @@
-// Import the task model
+// Import the resource model
 const Task = require("../models/task.model");
 
 // Methods
 
-// Create Task
+// Create resource
 const create = async(req,res) => {
     try{
 
@@ -40,7 +40,7 @@ const create = async(req,res) => {
     }
 };
 
-// Get Tasks List
+// Get resources List
 const list = async(req, res) => {
     try{
 
@@ -62,7 +62,7 @@ const list = async(req, res) => {
     }    
 };
 
-// Get Task by Id
+// Get resource by Id
 const getOne = async(req, res) => {
     try{
 
@@ -100,7 +100,7 @@ const getOne = async(req, res) => {
     }      
 };
 
-// Update Task by Id
+// Update resource by Id
 const update = async(req, res) => {
     try{
 
@@ -149,8 +149,8 @@ const update = async(req, res) => {
     }      
 };
 
-// Delete Task by Id
-const deleteTask = async(req, res) => {
+// Delete resource by Id
+const remove = async(req, res) => {
     try{
 
         // Receive the id param
@@ -192,5 +192,5 @@ module.exports = {
     list,
     getOne,    
     update,
-    deleteTask
+    remove
 };
