@@ -5,185 +5,188 @@ const User = require("../models/user.model");
 
 // Create resource
 const create = async(req,res) => {
-    // try{
+    try{
 
-    //     // Receive the data
-    //     let body = req.body;
+        // Receive the data
+        let body = req.body;
 
-    //     // Data validation
-    //     if(!body.title || !body.description || !body.status){
-    //         return res.status(400).json({
-    //             status: "error",
-    //             message: "There are some missing data"
-    //         });
-    //     }
+        // Data validation
+        if(!body.name || !body.email || !body.password){
+            return res.status(400).json({
+                status: "error",
+                message: "There are some missing data"
+            });
+        }
+        
+        // OPTION 1: Create a document in memory and save it later.
+        // Useful when you want full control before persisting the document.
+        // const resource = new User(body);
+        // await resource.save();
 
-    //     // Create a new Task instance according to the Task model
-    //     let taskToSave = new Task(body);
+        // OPTION 2: Create and save the document in a single step.
+        // More concise when no intermediate processing is needed.
+        const resource = await User.create(body);
 
-    //     // Save the Task object on the MongoDB
-    //     const task = await taskToSave.save();        
+        // Return a response
+        return res.status(201).json({
+            status: "success",
+            resource
+        });
+    } 
+    catch(error){
 
-    //     // Return a response
-    //     return res.status(201).json({
-    //         status: "success",
-    //         task
-    //     });
-    // } 
-    // catch(error){
-
-    //     return res.status(500).json({
-    //         status: "error",
-    //         message: "Error creating a new task",
-    //         error
-    //     });
-    // }
+        return res.status(500).json({
+            status: "error",
+            message: "Error creating a new user",
+            error
+        });
+    }
 };
 
 // Get resources List
 const list = async(req, res) => {
-    // try{
+    try{
 
-    //     const tasks = await Task.find();
+        const resources = await User.find();
 
-    //     // Return a response
-    //     return res.status(200).json({
-    //         status: "success",
-    //         tasks
-    //     });
-    // }
-    // catch(error){
+        // Return a response
+        return res.status(200).json({
+            status: "success",
+            resources
+        });
+    }
+    catch(error){
 
-    //     return res.status(500).json({
-    //         status: "error",
-    //         message: "Error listing tasks",
-    //         error
-    //     });
-    // }    
+        return res.status(500).json({
+            status: "error",
+            message: "Error listing users",
+            error
+        });
+    }    
 };
 
 // Get resource by Id
 const getOne = async(req, res) => {
-    // try{
+    try{
 
-    //     // Receive the id param
-    //     let id = req.params.id;
+        // Receive the id param
+        let id = req.params.id;
 
-    //     // Data validation (will be performed with Mongoose in the future)        
+        // Data validation (will be performed with Mongoose in the future)        
                 
-    //     const task = await Task.findById(id)
+        const resource = await User.findById(id)
         
-    //     if(!task){
+        if(!resource){
 
-    //         // Return a negative response (Task not found)
-    //         return res.status(404).json({
-    //             status: "error",
-    //             message: "Task with id = " + id + " not found"
-    //         });
-    //     }
+            // Return a negative response (resource not found)
+            return res.status(404).json({
+                status: "error",
+                message: "User with id = " + id + " not found"
+            });
+        }
 
-    //     // Return a positive response (Task found)
-    //     return res.status(200).json({
-    //         status: "success",
-    //         task
-    //     });
+        // Return a positive response (resource found)
+        return res.status(200).json({
+            status: "success",
+            resource
+        });
         
-    // }
-    // catch(error){
+    }
+    catch(error){
 
-    //     // Return a negative response (Error)
-    //     return res.status(500).json({
-    //         status: "error",
-    //         message: "Error getting task" ,
-    //         error
-    //     });
-    // }      
+        // Return a negative response (Error)
+        return res.status(500).json({
+            status: "error",
+            message: "Error getting user" ,
+            error
+        });
+    }      
 };
 
 // Update resource by Id
 const update = async(req, res) => {
-    // try{
+    try{
 
-    //     // Receive the id param
-    //     let id = req.params.id;
+        // Receive the id param
+        let id = req.params.id;
 
-    //     // Id validation (will be performed with Mongoose in the future)        
+        // Id validation (will be performed with Mongoose in the future)        
 
-    //     // Receive the new task data
-    //     let body = req.body;
-
-    //     // Data validation
-    //     if(!body.title || !body.description || !body.status){
-    //         return res.status(400).json({
-    //             status: "error",
-    //             message: "There are some missing data"
-    //         });
-    //     }        
+        // Receive the new task data
+        let body = req.body;
+        
+        // Data validation
+        if(!body.name || !body.email || !body.password){
+            return res.status(400).json({
+                status: "error",
+                message: "There are some missing data"
+            });
+        }
                 
-    //     const updatedTask = await Task.findByIdAndUpdate(id, body, {new: true});
+        const updatedResource = await User.findByIdAndUpdate(id, body, {new: true});
         
-    //     if(!updatedTask){
+        if(!updatedResource){
 
-    //         // Return a negative response (Task not found)
-    //         return res.status(404).json({
-    //             status: "error",
-    //             message: "Task with id = " + id + " not found"
-    //         });
-    //     }
+            // Return a negative response (resource not found)
+            return res.status(404).json({
+                status: "error",
+                message: "User with id = " + id + " not found"
+            });
+        }
 
-    //     // Return a positive response (Task found)
-    //     return res.status(200).json({
-    //         status: "success",
-    //         taskUpdate: updatedTask
-    //     });
+        // Return a positive response (resource found)
+        return res.status(200).json({
+            status: "success",
+            resourceUpdate: updatedResource
+        });
         
-    // }
-    // catch(error){
+    }
+    catch(error){
 
-    //     // Return a negative response (Error)
-    //     return res.status(500).json({
-    //         status: "error",
-    //         message: "Error updating task" ,
-    //         error
-    //     });
-    // }      
+        // Return a negative response (Error)
+        return res.status(500).json({
+            status: "error",
+            message: "Error updating user" ,
+            error
+        });
+    }      
 };
 
 // Delete resource by Id
 const remove = async(req, res) => {
-    // try{
+    try{
 
-    //     // Receive the id param
-    //     let id = req.params.id;
+        // Receive the id param
+        let id = req.params.id;
 
-    //     // Id validation (will be performed with Mongoose in the future)
+        // Id validation (will be performed with Mongoose in the future)
         
-    //     const deletedTask = await Task.findByIdAndDelete(id);        
+        const deletedResource = await User.findByIdAndDelete(id);        
 
-    //     if(!deletedTask){
+        if(!deletedResource){
 
-    //         // Return a negative response (Task not found)
-    //         return res.status(404).json({
-    //             status: "error",
-    //             message: "Task with id = " + id + " not found"
-    //         });
-    //     }
+            // Return a negative response (resource not found)
+            return res.status(404).json({
+                status: "error",
+                message: "User with id = " + id + " not found"
+            });
+        }
 
-    //     // Return a positive response (Task found)
-    //     return res.status(200).json({
-    //         status: "success",
-    //         deletedTask
-    //     });
-    // }
-    // catch(error){
+        // Return a positive response (resource found)
+        return res.status(200).json({
+            status: "success",
+            deletedResource
+        });
+    }
+    catch(error){
 
-    //     // Return a negative response (Error)
-    //     return res.status(500).json({
-    //         status: "error",
-    //         message: "Error deleting task" ,
-    //         error
-    //     });
-    // }      
+        // Return a negative response (Error)
+        return res.status(500).json({
+            status: "error",
+            message: "Error deleting user" ,
+            error
+        });
+    }      
 };
 
 // Export the controllers

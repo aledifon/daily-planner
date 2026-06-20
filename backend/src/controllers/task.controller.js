@@ -19,7 +19,7 @@ const create = async(req,res) => {
         }
 
         // Create a new Task instance according to the Task model
-        let taskToSave = new Task(body);
+        const taskToSave = new Task(body);
 
         // Save the Task object on the MongoDB
         const task = await taskToSave.save();        
