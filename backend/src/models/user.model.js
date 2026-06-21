@@ -14,7 +14,8 @@ const UserSchema = new Schema({
     },
     password:{
         type: String,
-        required: true
+        required: true,
+        select: false // Exclude the password field from query results by default        
     },    
     createdAt:{
         type: Date,
