@@ -1,5 +1,6 @@
-// Import the resource model
+// Import dependencies
 const User = require("../models/user.model");
+const bcrypt = require("bcrypt");
 
 // Methods
 
@@ -17,7 +18,11 @@ const create = async(req,res) => {
                 message: "There are some missing data"
             });
         }
-        
+
+        // Encrypt the password before saving the user
+        const saltRounds = 10;
+        body.password = await bcrypt.hash(body.password, saltRounds);   
+
         // OPTION 1: Create a document in memory and save it later.
         // Useful when you want full control before persisting the document.
         // const resource = new User(body);
@@ -26,6 +31,10 @@ const create = async(req,res) => {
         // OPTION 2: Create and save the document in a single step.
         // More concise when no intermediate processing is needed.
         const resource = await User.create(body);
+
+        // select:false only affects MongoDB queries.
+        // User.create() returns the newly created document, including password.
+        resource.password = undefined; 
 
         // Return a response
         return res.status(201).json({
