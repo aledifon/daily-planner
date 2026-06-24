@@ -13,9 +13,11 @@ app.use(express.urlencoded({ extended: true }));
 // Load application routes here
 const taskRoutes = require("./routes/task.routes");
 const userRoutes = require("./routes/user.routes");
+const authRoutes = require("./routes/auth.routes");
 
 app.use('/api/tasks', taskRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/auth', authRoutes);
 
 // Test endpoints
 app.get("/", (req, res) => {
