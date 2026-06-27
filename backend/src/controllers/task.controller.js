@@ -18,11 +18,14 @@ const create = async(req,res) => {
             });
         }
 
-        // Create a new Task instance according to the Task model
-        const taskToSave = new Task(body);
+        // Create a new Task instance associated with the authenticated user
+        const taskToSave = new Task({
+            ...body,
+            userId: req.user.id
+        });
 
         // Save the Task object on the MongoDB
-        const task = await taskToSave.save();        
+        const task = await taskToSave.save();           
 
         // Return a response
         return res.status(201).json({
@@ -44,7 +47,8 @@ const create = async(req,res) => {
 const list = async(req, res) => {
     try{
 
-        const tasks = await Task.find();
+        // const tasks = await Task.find();                     before JWT
+        const tasks = await Task.find({userId: req.user.id});
 
         // Return a response
         return res.status(200).json({
@@ -70,8 +74,12 @@ const getOne = async(req, res) => {
         let id = req.params.id;
 
         // Data validation (will be performed with Mongoose in the future)        
-                
-        const task = await Task.findById(id)
+                        
+        // const task = await Task.findById(id)          before JWT
+        const task = await Task.findOne({
+            _id: id,
+            userId: req.user.id                        
+        });
         
         if(!task){
 
@@ -119,8 +127,15 @@ const update = async(req, res) => {
                 message: "There are some missing data"
             });
         }        
-                
-        const updatedTask = await Task.findByIdAndUpdate(id, body, {new: true});
+
+        // const updatedTask = await Task.findByIdAndUpdate(id, body, {new: true});     before JWT
+        const updatedTask = await Task.findOneAndUpdate({
+                _id: id,
+                userId: req.user.id  
+            },
+            body,
+            {new: true}
+        );
         
         if(!updatedTask){
 
@@ -158,7 +173,11 @@ const remove = async(req, res) => {
 
         // Id validation (will be performed with Mongoose in the future)
         
-        const deletedTask = await Task.findByIdAndDelete(id);        
+        // const deletedTask = await Task.findByIdAndDelete(id);        before JWT
+        const deletedTask = await Task.findOneAndDelete({
+            _id: id,
+            userId: req.user.id  
+        });
 
         if(!deletedTask){
 

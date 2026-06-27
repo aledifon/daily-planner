@@ -12,10 +12,20 @@ const authMiddleware = (req, res, next) => {
                 status: "error",
                 message: "Authorization header missing"
             });
+        }        
+        // Check if the Authorization header starts with "Bearer "
+        else if (!authHeader.startsWith("Bearer ")){
+            return res.status(401).json({
+                status: "error",
+                message: "Invalid header format"
+            });
         }
 
         // Extract the token from: "Bearer <token>"
         const token = authHeader.split(" ")[1];
+
+        console.log("AuthHeader = " + authHeader);
+        console.log("Token = " + token);          
 
         // Verify that the token was signed by this backend and is still valid
         const decoded = jwt.verify(
@@ -25,6 +35,8 @@ const authMiddleware = (req, res, next) => {
 
         // Store the authenticated user data in the request
         req.user = decoded;
+
+        console.log("User =", req.user);
 
         // Continue to the next middleware or controller
         next();

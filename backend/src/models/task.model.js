@@ -3,6 +3,10 @@ const { Schema, model } = require("mongoose");
 
 // Define the structure and validation rules for Task documents
 const TaskSchema = new Schema({
+    userId:{
+        type: Schema.Types.ObjectId,
+        required: true
+    },
     title:{
         type: String,
         required: true
