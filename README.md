@@ -1,9 +1,8 @@
-# daily-planner
+# Daily-planner
 
-Backend API para la aplicación Daily Planner.
-Esta API ofrece autenticación con JWT, gestión de usuarios y CRUD de tareas.
+Backend REST API for the Daily Planner application featuring JWT authentication and task management.
 
-## Tecnologías utilizadas
+## Tech Stack
 
 - Node.js
 - Express
@@ -14,7 +13,7 @@ Esta API ofrece autenticación con JWT, gestión de usuarios y CRUD de tareas.
 - dotenv
 - cors
 
-## Estructura de carpetas
+## Folder structure
 
 ```
 backend/
@@ -39,75 +38,75 @@ backend/
       user.routes.js
 ```
 
-## Instalación
+## Installation
 
-1. Ve a la carpeta `backend`:
+1. Go to the `backend` folder:
    ```bash
    cd backend
    ```
 
-2. Instala dependencias:
+2. Install dependencies:
    ```bash
    npm install
    ```
 
-## Variables de entorno
+## Environment variables
 
-Crea un archivo `.env` en `backend/` con las siguientes variables:
+Create a `.env` file in `backend/` with the following variables:
 
 ```env
-PORT=3000
+PORT=3977
 MONGO_URI=mongodb://localhost:27017/daily-planner
-JWT_SECRET=tu_secreto_jwt
+JWT_SECRET=your_jwt_secret
 ```
 
-- `PORT`: puerto donde corre el backend.
-- `MONGO_URI`: URI de conexión a MongoDB.
-- `JWT_SECRET`: clave para firmar y verificar tokens JWT.
+- `PORT`: the port where the backend runs.
+- `MONGO_URI`: MongoDB connection URI.
+- `JWT_SECRET`: secret key for signing and verifying JWT tokens.
 
-## Cómo ejecutar
+## Running the project
 
-- En modo producción:
+- In production mode:
   ```bash
   npm start
   ```
 
-- En modo desarrollo con `nodemon`:
+- In development mode with `nodemon`:
   ```bash
   npm run dev
   ```
 
-El servidor se inicia desde `src/index.js`, que carga las variables de entorno, conecta a MongoDB y arranca Express.
+The server starts from `src/index.js`, which loads environment variables, connects to MongoDB, and starts Express.
 
-## Modelos
+## Models
 
 ### User
-Campos del modelo `User`:
-- `name` (String, requerido)
-- `email` (String, requerido, único)
-- `password` (String, requerido, `select: false`)
+Fields in the `User` model:
+- `name` (String, required)
+- `email` (String, required, unique)
+- `password` (String, required, `select: false`)
 - `createdAt` (Date, default `Date.now`)
 
 ### Task
-Campos del modelo `Task`:
-- `userId` (ObjectId, requerido)
-- `title` (String, requerido)
-- `description` (String, requerido)
-- `status` (String, requerido)
-- `dueDate` (Date, opcional)
+Fields in the `Task` model:
+- `userId` (ObjectId, required)
+- `title` (String, required)
+- `description` (String, required)
+- `status` (String, required)
+- `dueDate` (Date, optional)
 - `createdAt` (Date, default `Date.now`)
 
-## Endpoints implementados
+## API Endpoints
 
-### Rutas públicas
+### Public routes
 
 - `POST /api/auth/register`
-  - Registra un nuevo usuario.
-  - Recibe `name`, `email`, `password`.
+  - Registers a new user.
+  - Expects `name`, `email`, `password`.
 
 - `POST /api/auth/login`
-  - Autentica un usuario y devuelve un token JWT.
-  - Recibe `email`, `password`.
+  - Authenticates a user and returns a JWT token.
+  - Expects `email`, `password`.
 
 - `POST /api/users`
 - `GET /api/users`
@@ -115,11 +114,11 @@ Campos del modelo `Task`:
 - `PUT /api/users/:id`
 - `DELETE /api/users/:id`
 
-> Las rutas de usuario (`/api/users`) no están protegidas actualmente en `user.routes.js`.
+> The user routes (`/api/users`) are not currently protected in `user.routes.js`.
 
-### Rutas protegidas
+### Protected routes
 
-Todas las rutas bajo `/api/tasks` requieren JWT en el header `Authorization`.
+All routes under `/api/tasks` require a JWT token in the `Authorization` header.
 
 - `POST /api/tasks`
 - `GET /api/tasks`
@@ -127,31 +126,31 @@ Todas las rutas bajo `/api/tasks` requieren JWT en el header `Authorization`.
 - `PUT /api/tasks/:id`
 - `DELETE /api/tasks/:id`
 
-## Autenticación
+## Authentication
 
-- El login genera un token JWT válido por 1 hora.
-- El token se firma con `JWT_SECRET`.
-- Las rutas de tareas usan `authMiddleware` para validar el token.
+- Login generates a JWT token valid for 1 hour.
+- The token is signed using `JWT_SECRET`.
+- Task routes use `authMiddleware` to validate the token.
 
-### Header Authorization
+### Authorization header
 
-Envía el token en cada petición protegida:
+Send the token in each protected request:
 
 ```
 Authorization: Bearer <token>
 ```
 
-El middleware:
-- comprueba que el header exista,
-- verifica que empieza con `Bearer `,
-- extrae el token,
-- ejecuta `jwt.verify(...)`,
-- añade el payload decodificado a `req.user`.
+The middleware:
+- checks that the header exists,
+- verifies that it starts with `Bearer `,
+- extracts the token,
+- runs `jwt.verify(...)`,
+- attaches the decoded payload to `req.user`.
 
-## Estado actual del proyecto
+## Current Status
 
-- Backend MVP funcional.
-- Autenticación con JWT y bcrypt.
-- CRUD básico de tareas.
-- Gestión de usuarios básica.
-- No incluye tests automatizados ni roles avanzados.
+- Backend MVP completed.
+- JWT authentication with bcrypt password hashing.
+- User-owned task CRUD.
+- Basic user management.
+- No automated tests or role-based authorization yet.
