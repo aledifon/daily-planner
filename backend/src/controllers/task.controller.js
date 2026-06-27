@@ -35,10 +35,11 @@ const create = async(req,res) => {
     } 
     catch(error){
 
+        console.error(error);
+
         return res.status(500).json({
             status: "error",
-            message: "Error creating a new task",
-            error
+            message: "Error creating a new task"
         });
     }
 };
@@ -53,15 +54,16 @@ const list = async(req, res) => {
         // Return a response
         return res.status(200).json({
             status: "success",
-            tasks
+            task: tasks
         });
     }
     catch(error){
 
+        console.error(error);
+
         return res.status(500).json({
             status: "error",
-            message: "Error listing tasks",
-            error
+            message: "Error listing tasks"
         });
     }    
 };
@@ -99,11 +101,12 @@ const getOne = async(req, res) => {
     }
     catch(error){
 
+        console.error(error);
+
         // Return a negative response (Error)
         return res.status(500).json({
             status: "error",
-            message: "Error getting task" ,
-            error
+            message: "Error getting task"
         });
     }      
 };
@@ -149,17 +152,18 @@ const update = async(req, res) => {
         // Return a positive response (Task found)
         return res.status(200).json({
             status: "success",
-            taskUpdate: updatedTask
+            task: updatedTask
         });
         
     }
     catch(error){
 
+        console.error(error);
+
         // Return a negative response (Error)
         return res.status(500).json({
             status: "error",
-            message: "Error updating task" ,
-            error
+            message: "Error updating task"
         });
     }      
 };
@@ -191,16 +195,17 @@ const remove = async(req, res) => {
         // Return a positive response (Task found)
         return res.status(200).json({
             status: "success",
-            deletedTask
+            task: deletedTask
         });
     }
     catch(error){
 
+        console.error(error);
+
         // Return a negative response (Error)
         return res.status(500).json({
             status: "error",
-            message: "Error deleting task" ,
-            error
+            message: "Error deleting task"
         });
     }      
 };

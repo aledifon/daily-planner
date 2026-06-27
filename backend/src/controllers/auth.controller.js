@@ -52,10 +52,11 @@ const register = async(req,res) => {
     } 
     catch(error){
 
+        console.error(error);
+
         return res.status(500).json({
             status: "error",
-            message: "Error registering a new user",
-            error: error.message
+            message: "Error registering a new user"
         });
     }
 };
@@ -121,10 +122,11 @@ const login = async(req,res) => {
     } 
     catch(error){
 
+        console.error(error);
+
         return res.status(500).json({
             status: "error",
-            message: "Error logging in a user",
-            error: error.message
+            message: "Error logging in a user"
         });
     }
 };

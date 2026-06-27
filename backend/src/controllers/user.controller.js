@@ -44,10 +44,11 @@ const create = async(req,res) => {
     } 
     catch(error){
 
+        console.error(error);
+
         return res.status(500).json({
             status: "error",
-            message: "Error creating a new user",
-            error
+            message: "Error creating a new user"
         });
     }
 };
@@ -66,10 +67,11 @@ const list = async(req, res) => {
     }
     catch(error){
 
+        console.error(error);
+
         return res.status(500).json({
             status: "error",
-            message: "Error listing users",
-            error
+            message: "Error listing users"
         });
     }    
 };
@@ -103,11 +105,12 @@ const getOne = async(req, res) => {
     }
     catch(error){
 
+        console.error(error);
+
         // Return a negative response (Error)
         return res.status(500).json({
             status: "error",
-            message: "Error getting user" ,
-            error
+            message: "Error getting user"
         });
     }      
 };
@@ -152,11 +155,12 @@ const update = async(req, res) => {
     }
     catch(error){
 
+        console.error(error);
+
         // Return a negative response (Error)
         return res.status(500).json({
             status: "error",
-            message: "Error updating user" ,
-            error
+            message: "Error updating user"
         });
     }      
 };
@@ -189,11 +193,12 @@ const remove = async(req, res) => {
     }
     catch(error){
 
+        console.error(error);
+
         // Return a negative response (Error)
         return res.status(500).json({
             status: "error",
-            message: "Error deleting user" ,
-            error
+            message: "Error deleting user"
         });
     }      
 };
