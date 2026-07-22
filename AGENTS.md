@@ -138,9 +138,33 @@ Before implementing any code:
 2. List the files that will be created or modified.
 3. Wait for explicit user approval before generating or modifying any code.
 
-Never assume implementation approval from an implementation request alone.
+Code modifications always require explicit user approval.
 
-When in doubt, ask instead of implementing.
+Do not interpret requests such as "implement", "create", "add", "build", or similar as automatic authorization to modify project files.
+
+When in doubt, ask for confirmation before making changes.
+
+---
+
+## Incremental Development
+
+This project follows an incremental development approach.
+
+When proposing a solution:
+
+- Always propose the smallest useful implementation first (MVP).
+- Focus only on the current task and its immediate requirements.
+- Do not anticipate future architecture, abstractions, optimizations or features unless explicitly requested.
+- Prefer several small, reviewable iterations over one large implementation.
+- Keep proposals intentionally simple. Additional functionality can always be added in later iterations.
+
+When relevant, clearly distinguish between:
+
+### Current Scope
+Describe only what will be implemented in this iteration.
+
+### Future Improvements
+Optionally mention ideas or enhancements that are intentionally deferred for later iterations. Keep this section brief.
 
 ---
 
