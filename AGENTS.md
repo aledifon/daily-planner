@@ -128,6 +128,22 @@ ng build
 
 ---
 
+## Human-in-the-Loop Workflow
+
+The objective of this project is learning through discussion and incremental implementation.
+
+Before implementing any code:
+
+1. Explain the proposed design and the reasoning behind it.
+2. List the files that will be created or modified.
+3. Wait for explicit user approval before generating or modifying any code.
+
+Never assume implementation approval from an implementation request alone.
+
+When in doubt, ask instead of implementing.
+
+---
+
 # Project Structure
 
 ## frontend/
@@ -184,26 +200,6 @@ When framework or library documentation is required, prefer using Context7 inste
 When neither project documentation nor official documentation is available, analyze the existing implementation before making recommendations.
 
 If both documentation and implementation are inconsistent, highlight the inconsistency before making changes.
-
----
-
-# Development Philosophy
-
-This is an educational project.
-
-The goal is to understand every important implementation.
-
-Always:
-
-- Analyze the existing code before making changes.
-- Explain the proposed solution.
-- Wait for approval before significant implementations or refactors.
-- Implement incrementally.
-- Summarize the work once finished.
-
-Avoid "vibe coding".
-
-Prefer engineering decisions over quick solutions.
 
 ---
 
