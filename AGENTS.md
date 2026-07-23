@@ -56,6 +56,23 @@ When working with the full application, start services in this order:
 
 ---
 
+## Development Services
+
+When starting long-running development services (e.g. MongoDB, Express backend or Angular dev server):
+
+- Prefer launching long-running services in terminal sessions that remain accessible throughout the development session.
+- Keep terminal output accessible so logs, warnings and runtime errors can be monitored at any time.
+- Clearly indicate which terminal corresponds to each service.
+- Do not hide or daemonize development services unless explicitly requested.
+- If visible terminals are not supported, explain how to access the running processes and their logs.
+
+When executing commands:
+
+- Briefly explain which commands are being executed and why.
+- Clearly distinguish between one-shot commands (e.g. `npm run build`) and long-running services (e.g. `npm run dev`, `ng serve`, `mongod`).
+
+---
+
 ## Database
 
 Development uses a local MongoDB instance.
