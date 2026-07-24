@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { AuthService } from '../../services/auth.service';
+import { LoginResponse } from '../../models/auth.models';
 
 @Component({
   selector: 'app-login-page',
@@ -61,7 +62,11 @@ export class LoginPage {
     // JavaScript's main thread.
     this.authService.login(this.loginForm.getRawValue()).subscribe({
       // Executed when the HTTP Observable emits a successful response.
-      next: () => {
+      next: (response) => {
+
+        // localStorage.setItem('accessToken',response.token);
+        this.authService.saveToken(response.token);
+
         this.successMessage.set('Login successful.');
         this.isSubmitting.set(false);
       },

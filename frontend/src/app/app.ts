@@ -1,5 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, OnInit,signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { AuthService } from './services/auth.service';
+import { inject } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -7,6 +9,15 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
-export class App {
+export class App implements OnInit {
   protected readonly title = signal('daily-planner-frontend');
+  private readonly authService = inject(AuthService);
+
+  ngOnInit(): void{
+    if(this.authService.isAuthenticated){
+      console.log('The user is authenticated. Going to the private area of the application');
+    }
+    else
+      console.log('The user is not authenticated. Going to the login page of the application');
+  }
 }

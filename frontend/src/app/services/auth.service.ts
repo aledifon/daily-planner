@@ -10,6 +10,12 @@ import { LoginRequest, LoginResponse, RegisterRequest, RegisterResponse } from '
 export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly authApiUrl = 'http://localhost:3977/api/auth';
+  private readonly accessTokenKey = 'accessToken';
+
+  private authenticated = localStorage.getItem(this.accessTokenKey) ? true : false;
+  public get isAuthenticated(): boolean {
+    return this.authenticated;
+  }
 
   login(credentials: LoginRequest): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.authApiUrl}/login`, credentials);
@@ -17,5 +23,20 @@ export class AuthService {
 
   register(credentials: RegisterRequest): Observable<RegisterResponse> {
     return this.http.post<RegisterResponse>(`${this.authApiUrl}/register`, credentials);
+  }
+
+  // checkAuth(key: string): boolean {        
+  //   this.isAuthenticated = localStorage.getItem(key) ? true : false;
+  //   return this.isAuthenticated;
+  // }
+
+  saveToken(token: string): void{
+    localStorage.setItem(this.accessTokenKey, token);
+    this.authenticated = true;
+  }
+
+  removeToken(): void{
+    localStorage.removeItem(this.accessTokenKey);
+    this.authenticated = false;
   }
 }
