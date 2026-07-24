@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { AuthService } from '../../services/auth.service';
-import { LoginResponse } from '../../models/auth.models';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-page',
@@ -23,6 +23,7 @@ export class LoginPage {
   // They are private because only this TypeScript class needs them.
   private readonly formBuilder = inject(NonNullableFormBuilder);
   private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
 
   // Reactive UI state used by the template.
   // protected exposes it to the component template without making it
@@ -69,6 +70,9 @@ export class LoginPage {
 
         this.successMessage.set('Login successful.');
         this.isSubmitting.set(false);
+
+        // Navigate to the tasks page after successful login.
+        this.router.navigate(['/tasks']);
       },
 
       // Executed when the request emits an HTTP or network error.

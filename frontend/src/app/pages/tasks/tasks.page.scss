@@ -1,0 +1,16 @@
+.tasks-page {
+  min-height: 100dvh;
+  display: grid;
+  place-content: center;
+  gap: 1rem;
+  padding: 2rem;
+}
+
+h1 {
+  margin: 0;
+}
+
+button {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+}
