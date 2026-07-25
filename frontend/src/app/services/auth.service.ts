@@ -39,4 +39,8 @@ export class AuthService {
     localStorage.removeItem(this.accessTokenKey);
     this.authenticated = false;
   }
+
+  getToken(): string | null {    
+    return localStorage.getItem(this.accessTokenKey);
+  }
 }
