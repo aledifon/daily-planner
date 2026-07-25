@@ -12,7 +12,7 @@ export class AuthService {
   private readonly authApiUrl = 'http://localhost:3977/api/auth';
   private readonly accessTokenKey = 'accessToken';
 
-  private authenticated = localStorage.getItem(this.accessTokenKey) ? true : false;
+  private authenticated = localStorage.getItem(this.accessTokenKey) !== null;
   public get isAuthenticated(): boolean {
     return this.authenticated;
   }
@@ -35,7 +35,7 @@ export class AuthService {
     this.authenticated = true;
   }
 
-  removeToken(): void{
+  logout(): void{
     localStorage.removeItem(this.accessTokenKey);
     this.authenticated = false;
   }

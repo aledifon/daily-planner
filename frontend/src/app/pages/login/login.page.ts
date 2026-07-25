@@ -72,7 +72,7 @@ export class LoginPage {
         this.isSubmitting.set(false);
 
         // Navigate to the tasks page after successful login.
-        this.router.navigate(['/tasks']);
+        this.router.navigateByUrl('/tasks', {  replaceUrl: true });
       },
 
       // Executed when the request emits an HTTP or network error.
