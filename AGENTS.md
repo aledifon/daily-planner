@@ -58,13 +58,29 @@ When working with the full application, start services in this order:
 
 ## Development Services
 
-When starting long-running development services (e.g. MongoDB, Express backend or Angular dev server):
+When starting the full development environment, prefer using a single terminal window with separate tabs for each long-running service.
 
-- Prefer launching long-running services in terminal sessions that remain accessible throughout the development session.
+Use the following tab organization:
+
+1. MongoDB
+2. Backend
+3. Frontend
+
+Each service must run in its own terminal tab.
+
+When starting long-running development services:
+
+- Prefer opening all services in the same terminal window.
+- Open one dedicated terminal tab per service.
+- Set the terminal tab titles to:
+  - `Daily Planner - MongoDB`
+  - `Daily Planner - Backend`
+  - `Daily Planner - Frontend`
 - Keep terminal output accessible so logs, warnings and runtime errors can be monitored at any time.
-- Clearly indicate which terminal corresponds to each service.
+- Clearly indicate which terminal tab corresponds to each service.
+- Do not run multiple long-running services in the same terminal tab.
 - Do not hide or daemonize development services unless explicitly requested.
-- If visible terminals are not supported, explain how to access the running processes and their logs.
+- If visible terminal tabs are not supported, explain the limitation and use separate terminal windows instead.
 
 When executing commands:
 
