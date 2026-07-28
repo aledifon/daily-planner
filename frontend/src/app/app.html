@@ -1,3 +1,25 @@
-<main class="page-content">
-  <router-outlet></router-outlet>
-</main>
+<div class="app-layout">
+
+  <header class="header">  
+    <div class="app-logo">
+      <span> Daily Planner </span>
+    </div>
+
+    <button class="Login-Logout-button">
+      Login-Logout
+    </button>
+  </header>
+
+  <main class="page-content">
+    <div class="container">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <span class="desktop-footer-name">
+      &copy; 2026 Alejandro Diaz Fontalva
+    </span>
+  </footer>
+
+</div>
