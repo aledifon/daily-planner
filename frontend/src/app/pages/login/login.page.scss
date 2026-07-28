@@ -1,8 +1,6 @@
 :host {
   display: flex;
   flex: 1;
-
-  outline: 2px solid orange;
 }
 
 .login-page {
@@ -10,18 +8,14 @@
   flex: 1;
   justify-content: center;
   align-items: center;
-
-  outline: 2px solid green;    
 }
 
 .login-card {
   width: 100%;
   max-width: 28rem;
   padding: 2rem;
-  border: 1px solid #d1d5db;
+  border: 2px solid #d1d5db;
   border-radius: 0.5rem;  
-
-  outline: 2px solid purple;
 }
 
 .login-card__header {
