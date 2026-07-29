@@ -106,6 +106,7 @@ const login = async(req,res) => {
         const token = jwt.sign(
             {
                 id: user._id,
+                name: user.name,
                 email: user.email
             },
             process.env.JWT_SECRET,
@@ -116,8 +117,12 @@ const login = async(req,res) => {
 
         // Return a response
         return res.status(200).json({
-            status: "success",
-            token
+            status: "success",            
+            token,
+            user: {
+                name: user.name,
+                email: user.email
+            }
         });
     } 
     catch(error){
@@ -131,8 +136,34 @@ const login = async(req,res) => {
     }
 };
 
+const me = async(req, res) => {
+    try{
+
+        console.log(req.user);
+
+        // Return a response
+        return res.status(200).json({
+            status: "success",
+            user: {
+                name: req.user.name,
+                email: req.user.email   
+            }
+        });
+    }
+    catch(error){
+
+        console.error(error);
+
+        return res.status(500).json({
+            status: "error",
+            message: "Error getting the user"
+        });
+    }    
+};
+
 // Export the controllers
 module.exports = {
     register,
-    login
+    login,
+    me
 };

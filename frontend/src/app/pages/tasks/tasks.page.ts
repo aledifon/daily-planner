@@ -1,7 +1,6 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { TaskService } from '../../services/task.service';
-import { Router } from '@angular/router';
+import { Task } from '../../models/task.models';
 
 @Component({
   selector: 'app-tasks-page',
@@ -9,14 +8,12 @@ import { Router } from '@angular/router';
   styleUrl: './tasks.page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TasksPage {
-  private readonly authService = inject(AuthService);
-  private readonly taskService = inject(TaskService);
-  private readonly router = inject(Router);
+export class TasksPage implements OnInit{  
+  private readonly taskService = inject(TaskService);  
+  protected tasks = signal<Task[]>([]); // Initialize an empty array to hold the tasks
 
-  logout(): void {
-    this.authService.logout();
-    this.router.navigateByUrl('/login', {  replaceUrl: true });
+  ngOnInit(): void {
+    this.showTasks();
   }
 
   showTasks(): void {
@@ -25,8 +22,9 @@ export class TasksPage {
     this.taskService.getTasks()
       .subscribe({
         // Executed when the HTTP Observable emits a successful response.
-        next: (response) => {        
-          console.log('Tasks retrieved successfully:', response.task);
+        next: (response) => { 
+          this.tasks.set(response.task);       
+          console.log('Tasks retrieved successfully:', this.tasks());          
         },
 
         // Executed when the request emits an HTTP or network error.

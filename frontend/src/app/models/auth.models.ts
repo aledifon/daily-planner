@@ -3,9 +3,20 @@ export interface LoginRequest {
   password: string;
 }
 
+export interface User {
+  name: string,
+  email: string            
+}
+
+export interface MeResponse {
+    status: 'success';
+    user: User;
+}
+
 export interface LoginResponse {
   status: 'success';
   token: string;
+  user: User;
 }
 
 export interface RegisterRequest {

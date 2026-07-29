@@ -67,6 +67,7 @@ export class LoginPage {
 
         // localStorage.setItem('accessToken',response.token);
         this.authService.saveToken(response.token);
+        this.authService.saveAuthenticatedUser(response.user);
 
         this.successMessage.set('Login successful.');
         this.isSubmitting.set(false);

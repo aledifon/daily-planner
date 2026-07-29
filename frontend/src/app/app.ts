@@ -1,4 +1,4 @@
-import { Component, OnInit,signal, inject } from '@angular/core';
+import { Component, OnInit, signal, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 
 import { AuthService } from './services/auth.service';
@@ -10,19 +10,43 @@ import { AuthService } from './services/auth.service';
   styleUrl: './app.scss',
 })
 export class App implements OnInit {
-  protected readonly title = signal('daily-planner-frontend');
+  protected readonly title = signal('daily-planner-frontend');  
   
-  private readonly authService = inject(AuthService);
-  private readonly router = inject(Router);
+  protected readonly authService = inject(AuthService);
+  private readonly router = inject(Router);  
 
-  ngOnInit(): void{
-    if(this.authService.isAuthenticated){
-      console.log('The user is authenticated. Going to the private area of the application');
-      this.router.navigateByUrl('/tasks', {  replaceUrl: true });
+  ngOnInit(): void {
+    if (!this.authService.isAuthenticated()) {
+      this.router.navigateByUrl('/login', {
+        replaceUrl: true
+      });
+
+      return;
     }
-    else{
-      console.log('The user is not authenticated. Going to the login page of the application');
-      this.router.navigateByUrl('/login', {  replaceUrl: true });
-    }
+
+    this.authService.getUserInfo().subscribe({
+      next: (response) => {
+        this.authService.saveAuthenticatedUser(response.user);
+
+        this.router.navigateByUrl('/tasks', {
+          replaceUrl: true
+        });
+      },
+
+      error: () => {
+        this.authService.logout();
+
+        this.router.navigateByUrl('/login', {
+          replaceUrl: true
+        });
+      }
+    });
+  }
+
+  // The Logout button will only be visible if the use is already authenticated.
+  logout(): void {
+    console.log('The user has logged out. Going to the login page');
+    this.authService.logout();
+    this.router.navigateByUrl('/login', {  replaceUrl: true });
   }
 }

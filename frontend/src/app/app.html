@@ -5,13 +5,19 @@
       <span> Daily Planner </span>
     </div>
 
-    <button class="Login-Logout-button">
-      Login-Logout
-    </button>
+    @if(authService.isAuthenticated()) {
+      <button class="logout-button" (click)="logout()">
+        Logout
+      </button>
+    }    
+
   </header>
 
   <main class="page-content">
     <div class="container">
+      @if(authService.currentUser(); as user) {
+        <h1>Hi {{user.name}}! Welcome again :-)!</h1>
+      }
       <router-outlet></router-outlet>
     </div>
   </main>
