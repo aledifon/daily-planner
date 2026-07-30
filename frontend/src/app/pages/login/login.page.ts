@@ -61,7 +61,8 @@ export class LoginPage {
     // login() returns an RxJS Observable describing the HTTP request.
     // subscribe() starts the HttpClient request without blocking
     // JavaScript's main thread.
-    this.authService.login(this.loginForm.getRawValue()).subscribe({
+    this.authService.login(this.loginForm.getRawValue())
+      .subscribe({
       // Executed when the HTTP Observable emits a successful response.
       next: (response) => {
 

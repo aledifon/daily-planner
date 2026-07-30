@@ -13,14 +13,15 @@ const TaskSchema = new Schema({
     },
     description:{
         type: String,
-        required: true
+        default: ""
     },
     status:{
         type: String,
         required: true
     },
     dueDate:{
-        type: Date
+        type: Date,
+        default: null
     },
     createdAt:{
         type: Date,

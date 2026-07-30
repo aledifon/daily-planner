@@ -17,3 +17,10 @@ export interface TaskListResponse {
   status: 'success',
   task: Task[],
 }
+
+export interface CreateTaskRequest {
+  title: string;
+  description: string;
+  status: string;
+  dueDate?: string;
+}

@@ -1,9 +1,101 @@
 <section class="tasks-page">
   <h1>My Tasks</h1>  
   <div class="task-ui-controls">
-    <button class="create-task-button">
-      Create Task
+    <button class="create-task-button" (click)="toogleNewTaskForm()">
+      Define new Task
     </button>
+
+    @if(isNewTaskVisible()){
+      <form 
+        class="new-task-form" 
+        [formGroup]="newTaskForm" 
+        (ngSubmit)="createTask()" 
+        novalidate
+      >
+        <div class="new-task-form__field">
+          <label for="title">Task title</label>
+          <input 
+            id="title" 
+            type="text" 
+            formControlName="title" 
+            placeholder="New task"             
+            autocomplete="off"
+          />
+                  
+          @if (newTaskForm.controls.title.touched) {
+            @if (newTaskForm.controls.title.hasError('required')) {
+              <small class="new-task-form__error">
+                Title is required.
+              </small>
+            } @else if (newTaskForm.controls.title.hasError('minlength')) {
+              <small class="new-task-form__error">
+                Title must contain at least 3 characters.
+              </small>
+            } @else if (newTaskForm.controls.title.hasError('maxlength')) {
+              <small class="new-task-form__error">
+                Title cannot exceed 100 characters.
+              </small>
+            }
+          }
+
+        </div>
+
+        <div class="new-task-form__field">
+          <label for="description">Description</label>        
+          <textarea 
+            id="description"             
+            formControlName="description" 
+            placeholder="If you'd like, please provide more details about the assignment here..." 
+            rows="4"
+          ></textarea>
+                  
+          @if (
+            newTaskForm.controls.description.touched &&
+            newTaskForm.controls.description.hasError('maxlength')
+          ) {
+            <small class="new-task-form__error">
+              Description cannot exceed 500 characters.
+            </small>
+          }
+
+        </div>
+
+        <div class="new-task-form__field">
+          <label for="status">Status</label>
+          <select id="status" formControlName="status">
+            <option value="">Select a status</option>
+            <option value="pending">Pending</option>
+            <option value="in_progress">In progress</option>
+            <option value="completed">Completed</option>
+          </select>          
+          
+          @if (
+            newTaskForm.controls.status.touched &&
+            newTaskForm.controls.status.hasError('required')
+          ) {
+            <small class="new-task-form__error">
+              Please select a status.
+            </small>
+          }
+
+        </div>
+
+        <div class="new-task-form__field">
+          <label for="dueDate">Due date</label>
+          <input 
+            id="dueDate" 
+            type="date" 
+            formControlName="dueDate"
+          />
+          
+        </div>
+
+        <button class="new-task-form__button" type="submit">
+          Create new Task
+        </button>
+
+      </form>
+    }
   </div>
     
   <div class="task-list">

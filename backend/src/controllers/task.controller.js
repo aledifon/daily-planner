@@ -10,8 +10,12 @@ const create = async(req,res) => {
         // Receive the data
         let body = req.body;
 
+        console.log('body title = ' + body.title, 
+            'body description = ' + body.description, 
+            'body status = ' + body.status);
+
         // Data validation
-        if(!body.title || !body.description || !body.status){
+        if(!body.title || !body.status){
             return res.status(400).json({
                 status: "error",
                 message: "There are some missing data"
