@@ -1,0 +1,17 @@
+<article class="task-card">
+  <header class="task-card__header">
+    <h3 class="task-card__title">
+      {{ task().title }}
+    </h3>
+  </header>
+
+  <p class="task-card__description">
+    {{ task().description }}
+  </p>
+
+  <div class="task-card__meta">
+    <span>Status: {{ task().status }}</span>
+    <span>Due date: {{ task().dueDate }}</span>
+    <span>Created at: {{ task().createdAt }}</span>
+  </div>
+</article>

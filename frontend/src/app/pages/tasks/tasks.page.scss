@@ -5,10 +5,10 @@
 
 .tasks-page {
   // min-height: 100dvh;
-  display: grid;
-  place-content: center;
+  display: grid;  
   gap: 1rem;
   padding: 2rem;
+  width: 100%;
 }
 
 h1 {
@@ -23,3 +23,13 @@ button {
 .logout-button.hide{
     opacity: 0;
 }
+
+.task-list{
+  display: grid;
+  justify-content: center;
+  align-content: start;
+
+  grid-template-columns: repeat(auto-fill, minmax(19rem, 21rem));
+  gap: 1rem 1.25rem;
+}
+

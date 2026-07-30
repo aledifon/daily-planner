@@ -4,9 +4,11 @@ import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angula
 import { TaskService } from '../../services/task.service';
 import { Task } from '../../models/task.models';
 
+import { TaskCard } from '../../components/task-card/task-card';
+
 @Component({
   selector: 'app-tasks-page',
-  imports: [ReactiveFormsModule], // provides ngSubmit directive.
+  imports: [ReactiveFormsModule, TaskCard], // provides ngSubmit directive.
   templateUrl: './tasks.page.html',
   styleUrl: './tasks.page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

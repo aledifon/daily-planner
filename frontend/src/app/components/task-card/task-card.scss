@@ -1,0 +1,33 @@
+.task-card {
+  width: 100%;
+  min-height: 20rem;
+
+  padding: 1rem;
+  background-color: #FFF9C4;
+  border: 2px solid #E6D86A;
+
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+
+  border-radius: 0.5rem;
+
+  box-sizing: border-box;
+}
+
+.task-card__header {
+  margin-bottom: 0.5rem;
+}
+
+.task-card__title {
+  margin: 0;
+}
+
+.task-card__description {
+  margin: 0 0 0.75rem;
+}
+
+.task-card__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+}

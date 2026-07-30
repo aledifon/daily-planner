@@ -101,35 +101,9 @@
   <div class="task-list">
     <!-- The tasks cards will be here -->
       @for (task of tasks(); track task._id) {
-        <section class="task-card">
-
-          <header>
-            <h3 class="task-title">
-              {{task.title}}
-            </h3>
-          </header>            
-
-          <div class="task-description">
-            <p>
-              {{task.description}}
-            </p>
-          </div>
-
-          <div class="task-info">
-            <span>
-              Status: {{task.status}}
-            </span>
-
-            <span>
-              Due date: {{task.dueDate}}
-            </span>
-
-            <span>
-              Created at: {{task.createdAt}}
-            </span>
-          </div>
-
-        </section>          
+        <app-task-card 
+          [task]="task"
+        ></app-task-card>                  
       }
   </div>
   
