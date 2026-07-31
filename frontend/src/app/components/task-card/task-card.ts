@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 
 import { Task } from '../../models/task.models';
 
@@ -10,4 +10,14 @@ import { Task } from '../../models/task.models';
 })
 export class TaskCard {
   readonly task = input.required<Task>();
+  readonly delete = output<Task>();
+  readonly update = output<Task>();
+
+  onUpdateClick(): void {
+    this.update.emit(this.task());
+  }
+
+  onDeleteClick(): void {
+    this.delete.emit(this.task());
+  }
 }

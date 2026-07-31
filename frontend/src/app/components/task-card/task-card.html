@@ -1,8 +1,18 @@
+<div class="task-card__actions">
+  <button class="task-card__update-button" (click)="onUpdateClick()">
+    Update
+  </button>
+
+  <button class="task-card__delete-button" (click)="onDeleteClick()">
+    Delete
+  </button>
+</div>
+
 <article class="task-card">
   <header class="task-card__header">
     <h3 class="task-card__title">
       {{ task().title }}
-    </h3>
+    </h3>    
   </header>
 
   <p class="task-card__description">

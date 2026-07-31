@@ -96,4 +96,20 @@ export class TasksPage implements OnInit{
     });
 
   }
+
+  onUpdateTask(task: Task): void{
+    this.updateTask();
+  }
+
+  updateTask(): void{
+
+  }
+
+  onDeleteTask(task: Task): void{
+    this.deleteTask();
+  }
+
+  deleteTask(): void{
+    
+  }
 }
