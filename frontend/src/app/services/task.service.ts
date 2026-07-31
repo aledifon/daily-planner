@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { CreateTaskRequest, TaskListResponse, TaskResponse } from '../models/task.models';
+import { CreateTaskRequest, UpdateTaskRequest, TaskListResponse, TaskResponse } from '../models/task.models';
 
 import { AuthService } from './auth.service';
 
@@ -25,13 +25,34 @@ export class TaskService {
     return this.http.get<TaskListResponse>(this.tasksApiUrl, {headers});
   }
 
-  createTask(credentials: CreateTaskRequest): Observable<TaskResponse> {
+  createTask(payload: CreateTaskRequest): Observable<TaskResponse> {
     const token = this.authService.getToken();
 
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`
     });
 
-    return this.http.post<TaskResponse>(this.tasksApiUrl, credentials, {headers});
+    return this.http.post<TaskResponse>(this.tasksApiUrl, payload, {headers});
+  }
+
+  deleteTask(id: string): Observable<TaskResponse>{
+    const token = this.authService.getToken();
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+
+    return this.http.delete<TaskResponse>(`${this.tasksApiUrl}/${id}`, {headers});
+  }
+
+  updateTask(id: string, payload: UpdateTaskRequest): Observable<TaskResponse>{
+    const token = this.authService.getToken();
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+
+    return this.http.put<TaskResponse>(`${this.tasksApiUrl}/${id}`, payload, {headers});
+  
   }
 }

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@ang
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { TaskService } from '../../services/task.service';
-import { Task } from '../../models/task.models';
+import { Task, UpdateTaskRequest } from '../../models/task.models';
 
 import { TaskCard } from '../../components/task-card/task-card';
 
@@ -18,7 +18,8 @@ export class TasksPage implements OnInit{
   private readonly formBuilder = inject(NonNullableFormBuilder);
 
   protected tasks = signal<Task[]>([]); // Initialize an empty array to hold the tasks
-  protected readonly isNewTaskVisible = signal(false); 
+  protected readonly isNewTaskFormVisible = signal(false); 
+  protected readonly isUpdatedTaskFormVisible = signal(false); 
 
   // Form fields declaration
   protected readonly newTaskForm = this.formBuilder.group({
@@ -51,7 +52,7 @@ export class TasksPage implements OnInit{
   }
 
   toogleNewTaskForm(): void {
-    this.isNewTaskVisible.set(!this.isNewTaskVisible());
+    this.isNewTaskFormVisible.set(!this.isNewTaskFormVisible());
   }
 
   createTask(): void{
@@ -98,18 +99,67 @@ export class TasksPage implements OnInit{
   }
 
   onUpdateTask(task: Task): void{
-    this.updateTask();
+    this.updateTask(task);
   }
 
-  updateTask(): void{
+  updateTask(task: Task): void{
+    console.log(
+      `Updating the Task with id: ${task._id} with the data:`,
+      task
+    );
 
+    const payload: UpdateTaskRequest = {
+      title: task.title, 
+      description: task.description,
+      status: task.status,
+      dueDate: task.dueDate
+    };
+
+    this.taskService.updateTask(task._id, payload)
+      .subscribe({
+        next: (response) => {                    
+          console.log('Task created successfully:', response.task);
+          
+          // Update the Task list again on the Task Page
+          // this.showTasks();                
+          this.tasks.update(tasks => 
+            tasks.map(task => 
+              task._id === response.task._id 
+                ? response.task
+                : task
+            )
+          );
+        },
+        error: () => {
+          alert("Error while updating the Task");          
+        }
+    });
   }
 
   onDeleteTask(task: Task): void{
-    this.deleteTask();
+
+    // USER CONFIRMATION DIALOG? YES-NO?
+
+    this.deleteTask(task._id);
   }
 
-  deleteTask(): void{
+  deleteTask(id: string): void{
+    console.log('Deleting the Task with id:', id);
+
+    this.taskService.deleteTask(id).
+      subscribe({
+        next: (response) => {                    
+          console.log('Task deleted successfully:', response.task);
+
+          // Updating the signal deleting the current task from the list (we avoid having a 2nd HTTP req.)
+          this.tasks.update(tasks => 
+            tasks.filter(task => task._id !== id)
+          );
+        },
+        error: () => {
+          alert("Error while deleting the Task");          
+        }
+    });
     
   }
 }

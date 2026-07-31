@@ -128,7 +128,7 @@ const update = async(req, res) => {
         let body = req.body;
 
         // Data validation
-        if(!body.title || !body.description || !body.status){
+        if(!body.title || !body.status){
             return res.status(400).json({
                 status: "error",
                 message: "There are some missing data"

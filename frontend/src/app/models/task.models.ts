@@ -24,3 +24,10 @@ export interface CreateTaskRequest {
   status: string;
   dueDate?: string;
 }
+
+export interface UpdateTaskRequest {
+  title: string;
+  description: string;
+  status: string;
+  dueDate?: string;
+}

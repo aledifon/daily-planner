@@ -5,7 +5,7 @@
       Define new Task
     </button>
 
-    @if(isNewTaskVisible()){
+    @if(isNewTaskFormVisible()){
       <form 
         class="new-task-form" 
         [formGroup]="newTaskForm" 
@@ -104,7 +104,7 @@
         <app-task-card 
           [task]="task"
           (update)="onUpdateTask($event)"
-          (delete)="onDeleteTask($event)"
+          (delete)="onDeleteTask($event)"          
         ></app-task-card>                  
       }
   </div>
