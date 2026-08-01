@@ -74,15 +74,13 @@ button {
 
 /* SHARED CREATE / UPDATE TASK FORM */
 
-.task-form {
+.task-form,
+.delete-modal {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 
-  width: min(100%, 32rem);
-  max-height: 90vh;
-  overflow-y: auto;
-
+  width: min(100%, 32rem);  
   padding: 1.5rem;
 
   background-color: #fafbfc;
@@ -91,10 +89,25 @@ button {
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
 }
 
-.task-form__title {
+.task-form {
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.delete-modal {
+  max-width: 28rem;
+}
+
+.task-form__title,
+.delete-modal__title {
   margin: 0;
+
   font-size: 1.5rem;
   line-height: 1.2;
+}
+
+.delete-modal__description {
+  margin: 0;
 }
 
 .task-form__field {
@@ -140,14 +153,17 @@ button {
 
 /* TASK FORM ACTIONS */
 
-.task-form__actions {
+.task-form__actions,
+.delete-modal__actions {
   display: flex;
   justify-content: flex-end;
   gap: 0.75rem;
 }
 
 .task-form__cancel-button,
-.task-form__submit-button {
+.task-form__submit-button,
+.delete-modal__cancel-button,
+.delete-modal__confirm-button {
   padding: 0.75rem 1rem;
 
   border: 0;
@@ -158,11 +174,17 @@ button {
   cursor: pointer;
 }
 
-.task-form__cancel-button {
+.task-form__cancel-button,
+.delete-modal__cancel-button {
   background-color: #e5e7eb;
 }
 
 .task-form__submit-button {
   background-color: #ffffff;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.delete-modal__confirm-button {
+  background-color: #b91c1c;
+  color: #ffffff;
 }

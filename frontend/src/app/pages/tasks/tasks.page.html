@@ -141,4 +141,37 @@
       </form>
     </div>
   }
+
+  @if (isDeleteModalVisible() && selectedTask(); as task) {
+    <div class="modal-overlay">
+      <div class="delete-modal">
+        <h2 class="delete-modal__title">
+          Confirm Deletion
+        </h2>
+
+        <p class="delete-modal__description">
+          Are you sure you want to delete "{{ task.title }}"?
+        </p>
+
+        <div class="delete-modal__actions">
+          <button
+            class="delete-modal__cancel-button"
+            type="button"
+            (click)="onCloseDeleteModal()"
+          >
+            Cancel
+          </button>
+
+          <button
+            class="delete-modal__confirm-button"
+            type="button"
+            (click)="onConfirmDeleteTask()"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+
+  }
 </section>

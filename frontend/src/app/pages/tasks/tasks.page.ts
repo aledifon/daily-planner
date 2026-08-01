@@ -20,7 +20,8 @@ export class TasksPage implements OnInit{
   protected tasks = signal<Task[]>([]); // Initialize an empty array to hold the tasks
   protected taskFormMode = signal<'create' | 'update' | null>('create');
   protected selectedTask = signal<Task | null>(null); // Initialize with null, indicating no task is selected
-  protected readonly isTaskModalVisible = signal(false);   
+  protected readonly isTaskModalVisible = signal(false);  
+  protected readonly isDeleteModalVisible = signal(false);   
 
   // Forms fields declaration
   protected readonly taskForm = this.formBuilder.group({
@@ -179,18 +180,33 @@ export class TasksPage implements OnInit{
     });
   }
   
-  onDeleteTask(task: Task): void{
-    // User confirmation before deleting the task
-    if (!window.confirm(
-      `Are you sure you want to delete "${task.title}"?`
-    )) {
-      return;
-    }
+  onDeleteTask(task: Task): void{        
+    this.selectedTask.set(task);
+    this.isDeleteModalVisible.set(true);
+  }
 
-    this.deleteTask(task._id);
+  resetDeleteModal(): void{        
+    this.selectedTask.set(null);
+    this.isDeleteModalVisible.set(false);        
+  }
+
+  onCloseDeleteModal(): void {
+    this.resetDeleteModal();
+  }
+
+  onConfirmDeleteTask(): void {
+    const selectedTask = this.selectedTask();
+
+    if(!selectedTask){
+      this.resetDeleteModal();
+      return;
+    }      
+
+    this.deleteTask(selectedTask._id);
   }
 
   deleteTask(id: string): void{
+
     console.log('Deleting the Task with id:', id);
 
     this.taskService.deleteTask(id).
@@ -202,6 +218,9 @@ export class TasksPage implements OnInit{
           this.tasks.update(tasks => 
             tasks.filter(task => task._id !== id)
           );
+
+          // Reset the form and hide it again
+          this.resetDeleteModal();   
         },
         error: () => {
           alert("Error while deleting the Task");          
