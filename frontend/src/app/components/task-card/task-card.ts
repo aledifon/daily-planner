@@ -11,10 +11,10 @@ import { Task } from '../../models/task.models';
 export class TaskCard {
   readonly task = input.required<Task>();
   readonly delete = output<Task>();
-  readonly update = output<Task>();
+  readonly edit = output<Task>();
 
-  onUpdateClick(): void {
-    this.update.emit(this.task());
+  onEditClick(): void {
+    this.edit.emit(this.task());
   }
 
   onDeleteClick(): void {

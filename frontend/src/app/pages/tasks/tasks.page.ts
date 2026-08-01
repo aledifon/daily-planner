@@ -18,16 +18,17 @@ export class TasksPage implements OnInit{
   private readonly formBuilder = inject(NonNullableFormBuilder);
 
   protected tasks = signal<Task[]>([]); // Initialize an empty array to hold the tasks
-  protected readonly isNewTaskFormVisible = signal(false); 
-  protected readonly isUpdatedTaskFormVisible = signal(false); 
+  protected taskFormMode = signal<'create' | 'update' | null>('create');
+  protected selectedTask = signal<Task | null>(null); // Initialize with null, indicating no task is selected
+  protected readonly isTaskModalVisible = signal(false);   
 
-  // Form fields declaration
-  protected readonly newTaskForm = this.formBuilder.group({
+  // Forms fields declaration
+  protected readonly taskForm = this.formBuilder.group({
     title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
     description: ['', [Validators.maxLength(500)]],
     status: ['', [Validators.required]],
     dueDate: [''],
-  });
+  });  
 
   ngOnInit(): void {
     this.showTasks();
@@ -51,28 +52,72 @@ export class TasksPage implements OnInit{
     });
   }
 
-  toogleNewTaskForm(): void {
-    this.isNewTaskFormVisible.set(!this.isNewTaskFormVisible());
+  resetTaskForm(): void{
+    if (this.taskFormMode() == 'update')
+      this.selectedTask.set(null);          // Only when coming from update task.
+
+    this.taskFormMode.set(null);
+    this.taskForm.reset();    
+    this.isTaskModalVisible.set(false);        
+  }  
+
+  onCloseTaskModal(): void{
+    this.resetTaskForm();    
   }
 
-  createTask(): void{
-    // if(this.isSubmitting())
-    //   return;
+  onDefineNewTask(): void {
+    this.taskForm.reset();
+    this.selectedTask.set(null);
+    this.taskFormMode.set('create');
+    this.isTaskModalVisible.set(true);
+  }
 
+  onEditTask(task: Task): void{        
+    this.taskFormMode.set('update');
+
+    const initialValue: UpdateTaskRequest = {
+      title: task.title, 
+      description: task.description,
+      status: task.status,
+      dueDate: task.dueDate ?? ''
+    };
+
+    this.taskForm.setValue(initialValue);
+    this.selectedTask.set(task);
+
+    this.isTaskModalVisible.set(true);
+  }
+
+  onSubmitTaskForm(): void{    
     // Stop submission and reveal validation errors if the form is invalid.
-    if (this.newTaskForm.invalid) {
-      this.newTaskForm.markAllAsTouched();
+    if (this.taskForm.invalid) {
+      this.taskForm.markAllAsTouched();      
       return;
     }
 
-    // Reset the UI state for the new create task attempt
-    // this.isSubmitting.set(true);
-    // this.errorMessage.set(null);
-    // this.successMessage.set(null);
+    if(!this.taskFormMode()){
+      this.resetTaskForm();
+      return;
+    }      
+    else if(this.taskFormMode() == 'create'){
+      this.createTask();
+    }
+    else if (this.taskFormMode() == 'update'){
+      const selectedTask = this.selectedTask();
 
-    console.log('Creating a new Task with data:', this.newTaskForm.getRawValue());
+      if(!selectedTask){
+        this.resetTaskForm();
+        return;
+      }
 
-    this.taskService.createTask(this.newTaskForm.getRawValue()).
+      this.updateTask(selectedTask);
+    }
+  }  
+  
+  createTask(): void{
+    console.log('Creating a new Task with data:', this.taskForm.getRawValue());
+
+    this.taskService.createTask(this.taskForm.getRawValue()).
       subscribe({
         next: (response) => {          
           // Show the created Task data on the console
@@ -83,8 +128,7 @@ export class TasksPage implements OnInit{
           this.tasks.update(tasks => [...tasks, response.task]);
 
           // Reset the form and hide it again
-          this.newTaskForm.reset();
-          this.toogleNewTaskForm();
+          this.resetTaskForm();
 
           // this.successMessage.set('Login successful.');
           // this.isSubmitting.set(false);
@@ -96,49 +140,52 @@ export class TasksPage implements OnInit{
         }
     });
 
-  }
+  }        
 
-  onUpdateTask(task: Task): void{
-    this.updateTask(task);
-  }
+  updateTask(task: Task): void{    
+    const payload: UpdateTaskRequest = 
+      this.taskForm.getRawValue();
 
-  updateTask(task: Task): void{
     console.log(
-      `Updating the Task with id: ${task._id} with the data:`,
-      task
+      `Updating the Task with id: ${task._id} with data:`,
+      payload
     );
-
-    const payload: UpdateTaskRequest = {
-      title: task.title, 
-      description: task.description,
-      status: task.status,
-      dueDate: task.dueDate
-    };
 
     this.taskService.updateTask(task._id, payload)
       .subscribe({
         next: (response) => {                    
-          console.log('Task created successfully:', response.task);
+          console.log(
+            'Task updated successfully:', 
+            response.task
+          );
           
           // Update the Task list again on the Task Page
           // this.showTasks();                
           this.tasks.update(tasks => 
-            tasks.map(task => 
-              task._id === response.task._id 
+            tasks.map(currentTask => 
+              currentTask._id === response.task._id 
                 ? response.task
-                : task
+                : currentTask
             )
           );
+
+          // Reset the form and hide it again
+          this.resetTaskForm();        
         },
+
         error: () => {
-          alert("Error while updating the Task");          
+          alert("Error while updating the Task");                
         }
     });
   }
-
+  
   onDeleteTask(task: Task): void{
-
-    // USER CONFIRMATION DIALOG? YES-NO?
+    // User confirmation before deleting the task
+    if (!window.confirm(
+      `Are you sure you want to delete "${task.title}"?`
+    )) {
+      return;
+    }
 
     this.deleteTask(task._id);
   }

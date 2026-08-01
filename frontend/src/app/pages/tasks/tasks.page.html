@@ -1,112 +1,144 @@
 <section class="tasks-page">
-  <h1>My Tasks</h1>  
+  <h1>My Tasks</h1>
+
   <div class="task-ui-controls">
-    <button class="create-task-button" (click)="toogleNewTaskForm()">
+    <button
+      class="create-task-button"
+      type="button"
+      (click)="onDefineNewTask()"
+    >
       Define new Task
     </button>
+  </div>
 
-    @if(isNewTaskFormVisible()){
-      <form 
-        class="new-task-form" 
-        [formGroup]="newTaskForm" 
-        (ngSubmit)="createTask()" 
+  <div class="task-list">
+    @for (task of tasks(); track task._id) {
+      <app-task-card
+        [task]="task"
+        (edit)="onEditTask($event)"
+        (delete)="onDeleteTask($event)"
+      ></app-task-card>
+    }
+  </div>
+
+  @if (isTaskModalVisible()) {
+    <div class="modal-overlay">
+      <form
+        class="task-form"
+        [formGroup]="taskForm"
+        (ngSubmit)="onSubmitTaskForm()"
         novalidate
       >
-        <div class="new-task-form__field">
-          <label for="title">Task title</label>
-          <input 
-            id="title" 
-            type="text" 
-            formControlName="title" 
-            placeholder="New task"             
+        <h2 class="task-form__title">
+          @if (taskFormMode() === 'create') {
+            Create Task
+          } @else if (taskFormMode() === 'update') {
+            Edit Task
+          }
+        </h2>
+
+        <div class="task-form__field">
+          <label for="taskTitle">Task title</label>
+
+          <input
+            id="taskTitle"
+            type="text"
+            formControlName="title"
+            placeholder="Task title"
             autocomplete="off"
           />
-                  
-          @if (newTaskForm.controls.title.touched) {
-            @if (newTaskForm.controls.title.hasError('required')) {
-              <small class="new-task-form__error">
+
+          @if (taskForm.controls.title.touched) {
+            @if (taskForm.controls.title.hasError('required')) {
+              <small class="task-form__error">
                 Title is required.
               </small>
-            } @else if (newTaskForm.controls.title.hasError('minlength')) {
-              <small class="new-task-form__error">
+            } @else if (taskForm.controls.title.hasError('minlength')) {
+              <small class="task-form__error">
                 Title must contain at least 3 characters.
               </small>
-            } @else if (newTaskForm.controls.title.hasError('maxlength')) {
-              <small class="new-task-form__error">
+            } @else if (taskForm.controls.title.hasError('maxlength')) {
+              <small class="task-form__error">
                 Title cannot exceed 100 characters.
               </small>
             }
           }
-
         </div>
 
-        <div class="new-task-form__field">
-          <label for="description">Description</label>        
-          <textarea 
-            id="description"             
-            formControlName="description" 
-            placeholder="If you'd like, please provide more details about the assignment here..." 
+        <div class="task-form__field">
+          <label for="taskDescription">Description</label>
+
+          <textarea
+            id="taskDescription"
+            formControlName="description"
+            placeholder="Add more details about the task..."
             rows="4"
           ></textarea>
-                  
+
           @if (
-            newTaskForm.controls.description.touched &&
-            newTaskForm.controls.description.hasError('maxlength')
+            taskForm.controls.description.touched &&
+            taskForm.controls.description.hasError('maxlength')
           ) {
-            <small class="new-task-form__error">
+            <small class="task-form__error">
               Description cannot exceed 500 characters.
             </small>
           }
-
         </div>
 
-        <div class="new-task-form__field">
-          <label for="status">Status</label>
-          <select id="status" formControlName="status">
+        <div class="task-form__field">
+          <label for="taskStatus">Status</label>
+
+          <select
+            id="taskStatus"
+            formControlName="status"
+          >
             <option value="">Select a status</option>
             <option value="pending">Pending</option>
             <option value="in_progress">In progress</option>
             <option value="completed">Completed</option>
-          </select>          
-          
+          </select>
+
           @if (
-            newTaskForm.controls.status.touched &&
-            newTaskForm.controls.status.hasError('required')
+            taskForm.controls.status.touched &&
+            taskForm.controls.status.hasError('required')
           ) {
-            <small class="new-task-form__error">
+            <small class="task-form__error">
               Please select a status.
             </small>
           }
-
         </div>
 
-        <div class="new-task-form__field">
-          <label for="dueDate">Due date</label>
-          <input 
-            id="dueDate" 
-            type="date" 
+        <div class="task-form__field">
+          <label for="taskDueDate">Due date</label>
+
+          <input
+            id="taskDueDate"
+            type="date"
             formControlName="dueDate"
           />
-          
         </div>
 
-        <button class="new-task-form__button" type="submit">
-          Create new Task
-        </button>
+        <div class="task-form__actions">
+          <button
+            class="task-form__cancel-button"
+            type="button"
+            (click)="onCloseTaskModal()"
+          >
+            Cancel
+          </button>
 
+          <button
+            class="task-form__submit-button"
+            type="submit"
+          >
+            @if (taskFormMode() === 'create') {
+              Create Task
+            } @else if (taskFormMode() === 'update') {
+              Update Task
+            }
+          </button>
+        </div>
       </form>
-    }
-  </div>
-    
-  <div class="task-list">
-    <!-- The tasks cards will be here -->
-      @for (task of tasks(); track task._id) {
-        <app-task-card 
-          [task]="task"
-          (update)="onUpdateTask($event)"
-          (delete)="onDeleteTask($event)"          
-        ></app-task-card>                  
-      }
-  </div>
-  
+    </div>
+  }
 </section>
