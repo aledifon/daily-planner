@@ -43,7 +43,7 @@ export class LoginPage {
   });
 
   // Called by the form's (ngSubmit) event in the template.
-  protected submit(): void {
+  protected onSignIn(): void {
     if(this.isSubmitting())
       return;
 

@@ -5,7 +5,7 @@
       <p class="login-card__description">Access your planner with your email and password.</p>
     </div>
 
-    <form class="login-form" [formGroup]="loginForm" (ngSubmit)="submit()" novalidate>
+    <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSignIn()" novalidate>
       <div class="login-form__field">
         <label for="email">Email</label>
         <input id="email" type="email" formControlName="email" autocomplete="email" placeholder="you@example.com" />
