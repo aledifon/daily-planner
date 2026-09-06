@@ -10,18 +10,19 @@ const register = async(req,res) => {
     try{
 
         // Receive the data
-        let body = req.body;
+        const body = req.body;
 
-        // Data validation
-        if(!body.name || !body.email || !body.password){
-            return res.status(400).json({
+        // Check if the email is already registered
+        const existingUser = await User.findOne({email: body.email});
+
+        if(existingUser){
+            return res.status(409).json({
                 status: "error",
-                message: "There are some missing data"
+                message: "The email is already registered"
             });
         }
 
-        // POSSIBLE FUTURE ENHANCEMENT:
-        // TODO: Check if the email is already registered 
+        // POSSIBLE FUTURE ENHANCEMENT:        
         // TODO: Assign default roles or permissions to the new user
         // TODO: Send a welcome email or verification email to the user
         // TODO: Generate a JWT token for the user upon successful registration
@@ -66,8 +67,9 @@ const login = async(req,res) => {
     try{
 
         // Receive the data
-        let body = req.body;
+        const body = req.body;
 
+        // POSSIBLE FUTURE REFACTORING (Implement validateLoginMiddleware.js as validateRgisterMiddleware.js)
         // Data validation
         if(!body.email || !body.password){
             return res.status(400).json({
