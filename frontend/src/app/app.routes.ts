@@ -19,6 +19,13 @@ export const routes: Routes = [
         .then((m) => m.LoginPage),
   },
   {
+    path: 'register',
+    canActivate: [guestGuard],
+    loadComponent: () =>
+      import('./pages/register/register.page')
+        .then((m) => m.RegisterPage),
+  },
+  {
     path: 'tasks',
     canActivate: [authGuard],
     loadComponent: () =>
