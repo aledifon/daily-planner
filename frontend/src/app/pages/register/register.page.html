@@ -53,7 +53,21 @@
         }
       </div>
 
-      <button class="register-form__button" type="submit">Create account</button>
+      @if (errorMessage()) {
+        <p class="register-form__error register-form__error--summary">{{ errorMessage() }}</p>
+      }
+
+      @if (successMessage()) {
+        <p class="register-form__success">{{ successMessage() }}</p>
+      }
+
+      <button class="register-form__button" type="submit" [disabled]="isSubmitting()">
+        @if (isSubmitting()) {
+          Creating account...
+        } @else {
+          Create account
+        }
+      </button>
     </form>
 
     <p class="register-card__switch">

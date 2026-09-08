@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -15,6 +15,10 @@ export class RegisterPage {
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
 
+  protected readonly isSubmitting = signal(false);
+  protected readonly errorMessage = signal<string | null>(null);
+  protected readonly successMessage = signal<string | null>(null);
+
   protected readonly registerForm = this.formBuilder.group({
     name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
     email: ['', [Validators.required, Validators.email]],
@@ -22,32 +26,35 @@ export class RegisterPage {
   });
 
   protected onCreateAccount(): void {
+    if (this.isSubmitting())
+      return;
+
     if (this.registerForm.invalid) {
       this.registerForm.markAllAsTouched();
       return;
     }
 
     // Reset the UI state for the new register attempt.
-    // this.isSubmitting.set(true);
-    // this.errorMessage.set(null);
-    // this.successMessage.set(null);
+    this.isSubmitting.set(true);
+    this.errorMessage.set(null);
+    this.successMessage.set(null);
 
     this.authService.register(this.registerForm.getRawValue())
       .subscribe({
       // Executed when the HTTP Observable emits a successful response.
       next: () => {
         
-        // this.successMessage.set('Register user successful.');
-        // this.isSubmitting.set(false);
+        this.successMessage.set('Account created successfully.');
+        this.isSubmitting.set(false);
 
-        // // Navigate to the tasks page after successful login.
+        // Navigate to the login page after successful registration.
         this.router.navigateByUrl('/login', {  replaceUrl: true });
       },
 
       // Executed when the request emits an HTTP or network error.
       error: () => {
-        // this.errorMessage.set(error.error.message);
-        // this.isSubmitting.set(false);
+        this.errorMessage.set('Unable to create account.');
+        this.isSubmitting.set(false);
       },
     });
   }
