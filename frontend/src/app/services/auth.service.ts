@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -27,14 +27,8 @@ export class AuthService {
   }
 
   
-  getUserInfo(): Observable<MeResponse>{
-    const token = this.getToken();
-
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`
-    });
-
-    return this.http.get<MeResponse>(`${this.authApiUrl}/me`, {headers}); 
+  getUserInfo(): Observable<MeResponse>{    
+    return this.http.get<MeResponse>(`${this.authApiUrl}/me`);
   }
 
   saveToken(token: string): void{
