@@ -78,8 +78,9 @@ export class LoginPage {
       },
 
       // Executed when the request emits an HTTP or network error.
-      error: () => {
-        this.errorMessage.set('Invalid email or password.');
+      error: (error) => {
+        console.error(error);
+        this.errorMessage.set(error.error?.message || "Invalid email or password.");
         this.isSubmitting.set(false);
       },
     });

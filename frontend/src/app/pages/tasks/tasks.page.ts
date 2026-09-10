@@ -47,8 +47,8 @@ export class TasksPage implements OnInit{
         },
 
         // Executed when the request emits an HTTP or network error.
-        error: () => {
-          alert("Error while getting Tasks");
+        error: (error) => {
+          console.error(error);
         },
     });
   }
@@ -134,8 +134,8 @@ export class TasksPage implements OnInit{
           // this.successMessage.set('Login successful.');
           // this.isSubmitting.set(false);
         },
-        error: () => {
-          alert("Error while creating a new Task");
+        error: (error) => {
+          console.error(error);
           // this.errorMessage.set('Invalid email or password.');
           // this.isSubmitting.set(false);
         }
@@ -174,8 +174,8 @@ export class TasksPage implements OnInit{
           this.resetTaskForm();        
         },
 
-        error: () => {
-          alert("Error while updating the Task");                
+        error: (error) => {
+          console.error(error);
         }
     });
   }
@@ -222,8 +222,8 @@ export class TasksPage implements OnInit{
           // Reset the form and hide it again
           this.resetDeleteModal();   
         },
-        error: () => {
-          alert("Error while deleting the Task");          
+        error: (error) => {
+          console.error(error);          
         }
     });
     

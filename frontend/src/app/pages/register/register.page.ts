@@ -53,6 +53,7 @@ export class RegisterPage {
 
       // Executed when the request emits an HTTP or network error.
       error: (error) => {
+        console.error(error);
         this.errorMessage.set(error.error?.message || "Unable to create account.");
         this.isSubmitting.set(false);
       },

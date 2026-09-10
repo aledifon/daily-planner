@@ -13,35 +13,7 @@ export class App implements OnInit {
   protected readonly title = signal('daily-planner-frontend');  
   
   protected readonly authService = inject(AuthService);
-  private readonly router = inject(Router);  
-
-  // ngOnInit(): void {
-  //   if (!this.authService.isAuthenticated()) {
-  //     this.router.navigateByUrl('/login', {
-  //       replaceUrl: true
-  //     });
-
-  //     return;
-  //   }
-
-  //   this.authService.getUserInfo().subscribe({
-  //     next: (response) => {
-  //       this.authService.saveAuthenticatedUser(response.user);
-
-  //       this.router.navigateByUrl('/tasks', {
-  //         replaceUrl: true
-  //       });
-  //     },
-
-  //     error: () => {
-  //       this.authService.logout();
-
-  //       this.router.navigateByUrl('/login', {
-  //         replaceUrl: true
-  //       });
-  //     }
-  //   });
-  // }
+  private readonly router = inject(Router);    
 
   ngOnInit(): void {
     if (!this.authService.isAuthenticated()) {            
@@ -53,8 +25,8 @@ export class App implements OnInit {
         this.authService.saveAuthenticatedUser(response.user);        
       },
 
-      error: () => {
-        this.authService.logout();
+      error: (error) => {
+        console.error(error);        
       }
     });
   }
