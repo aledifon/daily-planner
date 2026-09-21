@@ -27,8 +27,8 @@ export class TasksPage implements OnInit{
   protected readonly taskForm = this.formBuilder.group({
     title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
     description: ['', [Validators.maxLength(500)]],
-    status: ['', [Validators.required]],
     dueDate: [''],
+    plannedDate: [''],
   });  
 
   ngOnInit(): void {
@@ -76,11 +76,11 @@ export class TasksPage implements OnInit{
   onEditTask(task: Task): void{        
     this.taskFormMode.set('update');
 
-    const initialValue: UpdateTaskRequest = {
+    const initialValue = {
       title: task.title, 
       description: task.description,
-      status: task.status,
-      dueDate: task.dueDate ?? ''
+      dueDate: task.dueDate ? task.dueDate.slice(0, 10) : '',
+      plannedDate: task.plannedDate ? task.plannedDate.slice(0, 10) : '',
     };
 
     this.taskForm.setValue(initialValue);
@@ -116,9 +116,17 @@ export class TasksPage implements OnInit{
   }  
   
   createTask(): void{
-    console.log('Creating a new Task with data:', this.taskForm.getRawValue());
+    const rawValue = this.taskForm.getRawValue();
+    const payload = {
+      title: rawValue.title,
+      description: rawValue.description,
+      dueDate: rawValue.dueDate || null,
+      plannedDate: rawValue.plannedDate || null,
+    };
 
-    this.taskService.createTask(this.taskForm.getRawValue()).
+    console.log('Creating a new Task with data:', payload);
+
+    this.taskService.createTask(payload).
       subscribe({
         next: (response) => {          
           // Show the created Task data on the console
@@ -144,8 +152,13 @@ export class TasksPage implements OnInit{
   }        
 
   updateTask(task: Task): void{    
-    const payload: UpdateTaskRequest = 
-      this.taskForm.getRawValue();
+    const rawValue = this.taskForm.getRawValue();
+    const payload: UpdateTaskRequest = {
+      title: rawValue.title,
+      description: rawValue.description,
+      dueDate: rawValue.dueDate || null,
+      plannedDate: rawValue.plannedDate || null,
+    };
 
     console.log(
       `Updating the Task with id: ${task._id} with data:`,

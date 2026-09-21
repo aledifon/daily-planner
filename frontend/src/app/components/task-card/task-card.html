@@ -20,8 +20,11 @@
   </p>
 
   <div class="task-card__meta">
-    <span>Status: {{ task().status }}</span>
-    <span>Due date: {{ task().dueDate }}</span>
-    <span>Created at: {{ task().createdAt }}</span>
+    @if(task().plannedDate !== null){
+      <span>Planned: {{ task().plannedDate | date:'dd/MM/yyyy' }}</span>
+    }
+    @if(task().dueDate !== null){
+      <span>Due: {{ task().dueDate | date:'dd/MM/yyyy' }}</span>    
+    }    
   </div>
 </article>

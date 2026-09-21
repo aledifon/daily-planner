@@ -3,8 +3,9 @@ export interface Task {
   userId: string;
   title: string;
   description: string;
-  status: string;
-  dueDate?: string;
+  dueDate: string | null;
+  plannedDate: string | null;
+  completedAt: string | null;
   createdAt: string;
 }
 
@@ -21,13 +22,13 @@ export interface TaskListResponse {
 export interface CreateTaskRequest {
   title: string;
   description: string;
-  status: string;
-  dueDate: string;
+  dueDate: string | null;
+  plannedDate: string | null;
 }
 
 export interface UpdateTaskRequest {
   title: string;
   description: string;
-  status: string;
-  dueDate: string;
+  dueDate: string | null;
+  plannedDate: string | null;
 }

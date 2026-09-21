@@ -11,11 +11,10 @@ const create = async(req,res) => {
         let body = req.body;
 
         console.log('body title = ' + body.title, 
-            'body description = ' + body.description, 
-            'body status = ' + body.status);
+            'body description = ' + body.description);
 
         // Data validation
-        if(!body.title || !body.status){
+        if(!body.title){
             return res.status(400).json({
                 status: "error",
                 message: "There are some missing data"
@@ -128,7 +127,7 @@ const update = async(req, res) => {
         let body = req.body;
 
         // Data validation
-        if(!body.title || !body.status){
+        if(!body.title){
             return res.status(400).json({
                 status: "error",
                 message: "There are some missing data"

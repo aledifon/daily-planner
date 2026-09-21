@@ -86,26 +86,13 @@
         </div>
 
         <div class="task-form__field">
-          <label for="taskStatus">Status</label>
+          <label for="taskPlannedDate">Planned date</label>
 
-          <select
-            id="taskStatus"
-            formControlName="status"
-          >
-            <option value="">Select a status</option>
-            <option value="pending">Pending</option>
-            <option value="in_progress">In progress</option>
-            <option value="completed">Completed</option>
-          </select>
-
-          @if (
-            taskForm.controls.status.touched &&
-            taskForm.controls.status.hasError('required')
-          ) {
-            <small class="task-form__error">
-              Please select a status.
-            </small>
-          }
+          <input
+            id="taskPlannedDate"
+            type="date"
+            formControlName="plannedDate"
+          />
         </div>
 
         <div class="task-form__field">
