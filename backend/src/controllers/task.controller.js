@@ -195,6 +195,8 @@ const remove = async(req, res) => {
             });
         }
 
+
+
         // Return a positive response (Task found)
         return res.status(200).json({
             status: "success",
@@ -213,11 +215,107 @@ const remove = async(req, res) => {
     }      
 };
 
+// Mark task as completed
+const complete = async(req, res) => {
+    try{
+
+        // Receive the id param
+        const id = req.params.id;
+        
+        const completedTask = await Task.findOneAndUpdate(
+            {
+                _id: id,
+                userId: req.user.id,
+                completedAt: null
+            },    
+            {
+                completedAt: new Date()
+            },        
+            { new: true }
+        );
+        
+        if(!completedTask){
+
+            // Return a negative response (Task not found)
+            return res.status(404).json({
+                status: "error",
+                message: "Task with id = " + id + " not found"
+            });
+        }
+
+        // Return a positive response (Task found)
+        return res.status(200).json({
+            status: "success",
+            task: completedTask
+        });
+        
+    }
+    catch(error){
+
+        console.error(error);
+
+        // Return a negative response (Error)
+        return res.status(500).json({
+            status: "error",
+            message: "Error setting the task as completed"
+        });
+    }
+};
+
+// Mark task as uncompleted
+const uncomplete = async(req, res) => {
+    try{
+
+        // Receive the id param
+        const id = req.params.id;
+        
+        const uncompletedTask = await Task.findOneAndUpdate(
+            {
+                _id: id,
+                userId: req.user.id,
+                completedAt: { $ne: null }
+            },    
+            {
+                completedAt: null
+            },        
+            { new: true }
+        );
+        
+        if(!uncompletedTask){
+
+            // Return a negative response (Task not found)
+            return res.status(404).json({
+                status: "error",
+                message: "Task with id = " + id + " not found"
+            });
+        }
+
+        // Return a positive response (Task found)
+        return res.status(200).json({
+            status: "success",
+            task: uncompletedTask
+        });
+        
+    }
+    catch(error){
+
+        console.error(error);
+
+        // Return a negative response (Error)
+        return res.status(500).json({
+            status: "error",
+            message: "Error setting the task as uncompleted"
+        });
+    }
+};
+
 // Export the controllers
 module.exports = {
     create,
     list,
     getOne,    
     update,
-    remove
+    remove,
+    complete,
+    uncomplete
 };

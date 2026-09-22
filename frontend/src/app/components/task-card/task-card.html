@@ -27,7 +27,7 @@
       <span>Due: {{ task().dueDate | date:'dd/MM/yyyy' }}</span>    
     }
     @if(task().completedAt !== null){
-      <span>Completed: {{ task().completedAt | date:'dd/MM/yyyy' }}</span>    
+      <span>Completed: {{ task().completedAt | date:'dd/MM/yyyy HH:mm' }}</span>    
     }    
   </div>
 </article>
