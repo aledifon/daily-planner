@@ -1,10 +1,33 @@
+<div class="task-card__complete-action">
+  <button 
+    class="task-card__complete-button" 
+    type="button"
+    [attr.aria-label]="task().completedAt !== null ? 'Uncomplete task' : 'Complete task'"
+    (click)="onCompleteClick()">
+      @if(task().completedAt !== null){
+        ✓
+      }
+      @else{
+        ○
+      }    
+  </button>
+</div>
+
 <div class="task-card__actions">
-  <button class="task-card__edit-button" (click)="onEditClick()">
-    Edit
+  <button
+    class="task-card__edit-button"
+    type="button"
+    aria-label="Edit task"
+    (click)="onEditClick()">
+      ✏️
   </button>
 
-  <button class="task-card__delete-button" (click)="onDeleteClick()">
-    Delete
+  <button
+    class="task-card__delete-button"
+    type="button"
+    aria-label="Delete task"
+    (click)="onDeleteClick()">
+      🗑️
   </button>
 </div>
 

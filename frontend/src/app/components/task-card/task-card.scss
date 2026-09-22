@@ -53,8 +53,30 @@
   // outline: 1px solid red;
 }
 
-.task-card__actions button {
-  padding: 0.3rem 0.55rem;
-  font-size: 0.8125rem;
+.task-card__complete-action {
+  position: absolute;
+  top: 0.35rem;
+  left: 0.35rem;
+}
+
+.task-card__complete-action button {
+  padding: 0.2rem 0.45rem;
+  font-size: 1rem;
   line-height: 1.2;
+
+  background: transparent;
+  border: 1px solid #8f843f;
+  border-radius: 0.35rem;
+
+  cursor: pointer;
+}
+
+.task-card__actions button {
+  padding: 0.3rem;
+  font-size: 1rem;
+  line-height: 1.2;
+
+  border: none;
+  background: transparent;
+  cursor: pointer;
 }

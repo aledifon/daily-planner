@@ -26,4 +26,12 @@ export class TaskService {
   updateTask(id: string, payload: UpdateTaskRequest): Observable<TaskResponse>{
     return this.http.put<TaskResponse>(`${this.tasksApiUrl}/${id}`, payload);  
   }
+
+  completeTask(id: string): Observable<TaskResponse>{
+    return this.http.patch<TaskResponse>(`${this.tasksApiUrl}/${id}/complete`, null);
+  }
+
+  uncompleteTask(id: string): Observable<TaskResponse>{
+    return this.http.patch<TaskResponse>(`${this.tasksApiUrl}/${id}/uncomplete`, null);
+  }
 }

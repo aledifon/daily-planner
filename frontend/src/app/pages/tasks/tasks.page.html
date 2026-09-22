@@ -17,6 +17,8 @@
         [task]="task"
         (edit)="onEditTask($event)"
         (delete)="onDeleteTask($event)"
+        (complete)="onCompleteTask($event)"
+        (uncomplete)="onUncompleteTask($event)"
       ></app-task-card>
     }
   </div>

@@ -14,6 +14,8 @@ export class TaskCard {
   readonly task = input.required<Task>();
   readonly delete = output<Task>();
   readonly edit = output<Task>();
+  readonly complete = output<Task>();
+  readonly uncomplete = output<Task>();
 
   onEditClick(): void {
     this.edit.emit(this.task());
@@ -22,4 +24,12 @@ export class TaskCard {
   onDeleteClick(): void {
     this.delete.emit(this.task());
   }
+
+  onCompleteClick(): void {
+    if (this.task().completedAt == null)
+      this.complete.emit(this.task());
+    else
+      this.uncomplete.emit(this.task());
+  }
+
 }

@@ -18,7 +18,7 @@ export class TasksPage implements OnInit{
   private readonly formBuilder = inject(NonNullableFormBuilder);
 
   protected tasks = signal<Task[]>([]); // Initialize an empty array to hold the tasks
-  protected taskFormMode = signal<'create' | 'update' | null>('create');
+  protected taskFormMode = signal<'create' | 'update' | null>('create');  
   protected selectedTask = signal<Task | null>(null); // Initialize with null, indicating no task is selected
   protected readonly isTaskModalVisible = signal(false);  
   protected readonly isDeleteModalVisible = signal(false);   
@@ -241,4 +241,71 @@ export class TasksPage implements OnInit{
     });
     
   }
+
+  onCompleteTask(task: Task): void{      
+    this.completeTask(task._id);
+  } 
+
+  onUncompleteTask(task: Task): void{      
+    this.uncompleteTask(task._id);
+  } 
+
+  completeTask(id: string): void{
+
+    console.log('Setting as completed the Task with id:', id);    
+
+    this.taskService.completeTask(id).
+      subscribe({
+        next: (response) => {                    
+          console.log('Task setting as completed successfully:', response.task);
+          
+          // Update the Task list again on the Task Page (we avoid having a 2nd HTTP req.)
+          // this.showTasks();                
+          this.tasks.update(tasks => 
+            tasks.map(currentTask => 
+              currentTask._id === response.task._id 
+                ? response.task
+                : currentTask
+            )
+          );
+
+          // Reset the form and hide it again
+          // this.resetDeleteModal();   
+        },
+        error: (error) => {
+          console.error(error);          
+        }
+    });
+
+  }
+
+  uncompleteTask(id: string): void{
+
+    console.log('Setting as uncompleted the Task with id:', id);    
+
+    this.taskService.uncompleteTask(id).
+      subscribe({
+        next: (response) => {                    
+          console.log('Task setting as uncompleted successfully:', response.task);
+          
+          // Update the Task list again on the Task Page (we avoid having a 2nd HTTP req.)
+          // this.showTasks();                
+          this.tasks.update(tasks => 
+            tasks.map(currentTask => 
+              currentTask._id === response.task._id 
+                ? response.task
+                : currentTask
+            )
+          );
+
+          // Reset the form and hide it again
+          // this.resetDeleteModal();   
+        },
+        error: (error) => {
+          console.error(error);          
+        }
+    });
+
+  }
+
 }
